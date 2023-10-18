@@ -1,9 +1,8 @@
 "use client";
-
-import Image from "next/image";
 import styles from "./page.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Project from "../components/project";
+import Modal from "../components/modal";
 
 const projects = [
   {
@@ -31,22 +30,21 @@ const projects = [
 export default function Home() {
   const [modal, setModal] = useState({ active: false, index: 0 });
 
-  useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      const locomotiveScroll = new LocomotiveScroll();
-    })();
-  }, []);
-
   return (
     <main className={styles.main}>
       <div className={styles.body}>
         {projects.map((project, index) => {
           return (
-            <Project key={index} title={project.title} setModal={setModal} />
+            <Project
+              index={index}
+              title={project.title}
+              setModal={setModal}
+              key={index}
+            />
           );
         })}
       </div>
+      <Modal modal={modal} projects={projects} />
     </main>
   );
 }
